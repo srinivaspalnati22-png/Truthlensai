@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block title %}Voice AI Assistant{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-4xl mx-auto flex flex-col pt-4 h-[90vh] animate-fade-in-up">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-4xl font-display font-bold text-white tracking-tight">AI Voice Assistant</h2>
+            <p class="text-slate-400 mt-2 font-medium">Verify content or learn about fake news via natural conversation.
+            </p>
+        </div>
+        <div
+            class="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-bold">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Neural NLP Active
+        </div>
+    </div>
+
+    <div
+        class="bg-panel/80 backdrop-blur-xl border border-slate-700/50 rounded-[2rem] flex-grow flex flex-col overflow-hidden shadow-2xl relative">
+
+        <!-- Chat History -->
+        <div id="chatBoxContainer"
+            class="flex-grow p-6 lg:p-10 overflow-y-auto custom-scrollbar flex flex-col gap-6 relative z-10 scroll-smooth">
+
+            <div class="flex gap-4 items-end w-full max-w-[85%]">
+                <div
+                    class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex flex-shrink-0 items-center justify-center text-white shadow-lg shadow-primary/30 relative">
+                    <i class="fas fa-robot text-lg"></i>
+                    <div class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-panel">
+                    </div>
+                </div>
+                <div
+                    class="bg-slate-800 p-5 rounded-3xl rounded-bl-sm border border-slate-700 text-slate-200 text-lg shadow-md leading-relaxed">
+                    Hello! I'm TruthBot 🤖. I can answer your questions about fake news, guide you on how to use the
+                    scanner, or just chat. Ask me anything via voice or type below!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Chat Input Area -->
+        <div class="p-4 lg:p-6 bg-slate-900 border-t border-slate-800/80 z-20">
+            <div class="flex items-center gap-3 relative">
+                <!-- Voice Recording Visualization hidden by default -->
+                <div id="voiceChatWaves"
+                    class="absolute -top-12 left-1/2 transform -translate-x-1/2 hidden bg-slate-800 px-6 py-2 rounded-full border border-secondary shadow-[0_0_15px_rgba(236,72,153,0.3)] items-center gap-1">
+                    <span class="w-1.5 h-4 bg-secondary rounded-full animate-wave"></span>
+                    <span class="w-1.5 h-6 bg-secondary rounded-full animate-wave animation-delay-200"></span>
+                    <span class="w-1.5 h-3 bg-secondary rounded-full animate-wave animation-delay-400"></span>
+                    <span class="w-1.5 h-5 bg-secondary rounded-full animate-wave animation-delay-600"></span>
+                    <span class="text-xs font-bold text-secondary ml-2 uppercase tracking-widest">Listening</span>
+                </div>
+
+                <button id="chatMicTriggerBtn"
+                    class="w-14 h-14 rounded-full border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-secondary hover:bg-slate-700 transition-all shrink-0 flex items-center justify-center outline-none group relative">
+                    <i class="fas fa-microphone text-xl group-hover:scale-110 transition-transform relative z-10"></i>
+                </button>
+
+                <input type="text" id="aiChatInput"
+                    class="flex-grow bg-slate-800/50 backdrop-blur-md border border-slate-700/50 inset-0 rounded-full px-8 py-4 text-white focus:outline-none focus:border-primary focus:bg-slate-800 transition-colors shadow-inner text-lg placeholder-slate-500"
+                    placeholder="Type or say something..."
+                    onkeypress="if(event.key === 'Enter') handleUserChatMessage()">
+
+                <button onclick="handleUserChatMessage()"
+                    class="w-14 h-14 rounded-full bg-primary text-white hover:bg-indigo-500 hover:scale-105 transition-all shrink-0 shadow-[0_0_15px_rgba(99,102,241,0.4)] flex items-center justify-center outline-none focus:ring-2 ring-primary ring-offset-2 ring-offset-panel">
+                    <i class="fas fa-paper-plane text-xl transform -translate-x-0.5 translate-y-0.5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Signal script.js that we are on chat page
+    window.isChatPage = true;
+</script>
+{% endblock %}

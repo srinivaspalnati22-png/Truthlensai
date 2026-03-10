@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens AI | {% block title %}{% endblock %}</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#6366f1', secondary: '#a855f7', dark: '#020617', panel: '#0f172a' },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], display: ['Space Grotesk', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+
+<body class="bg-dark text-slate-200 overflow-x-hidden antialiased flex">
+
+    <!-- Global Preloader Video Overlay -->
+    <div id="pagePreloader"
+        class="fixed inset-0 z-[200] bg-dark flex flex-col items-center justify-center transition-opacity duration-700">
+        <!-- Abstract Tech Video for Loading -->
+        <video autoplay loop muted playsinline
+            class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen">
+            <source src="https://cdn.pixabay.com/video/2020/05/25/40141-424846663_large.mp4" type="video/mp4">
+        </video>
+        <div class="relative z-10 flex flex-col items-center">
+            <div
+                class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-[0_0_30px_rgba(99,102,241,0.5)] mb-6 animate-bounce">
+                <i class="fas fa-shield-check text-white text-4xl"></i>
+            </div>
+            <h1 class="font-display font-black text-3xl text-white tracking-widest uppercase">Truth<span
+                    class="text-primary">Lens</span></h1>
+            <p class="text-slate-400 font-mono text-sm mt-4 animate-pulse">Establishing Secure Neural Link...</p>
+            <div class="w-48 h-1 bg-slate-800 rounded-full mt-6 overflow-hidden">
+                <div class="h-full bg-primary w-full animate-loader-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Notifications -->
+    <div id="toastContainer" class="fixed top-6 right-6 z-[100] flex flex-col gap-3"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav
+        class="fixed left-0 top-0 h-full w-20 md:w-64 bg-panel/80 backdrop-blur-xl border-r border-slate-800 z-50 flex flex-col justify-between transition-all duration-300 shadow-2xl">
+        <div>
+            <div class="h-20 flex items-center justify-center md:justify-start md:px-6 border-b border-slate-800">
+                <!-- Custom SVG Logo -->
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20 shrink-0 relative overflow-hidden group">
+                    <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <div
+                        class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    </div>
+                </div>
+                <!-- Brand Text -->
+                <span class="hidden md:block ml-3 font-display font-black text-xl tracking-wide text-white">Truth<span
+                        class="text-primary">Lens</span></span>
+            </div>
+
+            <div class="p-4 flex flex-col gap-2 mt-4">
+                <a href="/home"
+                    class="nav-link flex items-center gap-4 p-3 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white"
+                    id="nav-home">
+                    <i class="fas fa-home text-xl w-6 text-center"></i><span class="hidden md:block font-medium"
+                        data-translate="nav-home">Home</span>
+                </a>
+                <a href="/analyze_page"
+                    class="nav-link flex items-center gap-4 p-3 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white"
+                    id="nav-analyze">
+                    <i class="fas fa-search text-xl w-6 text-center"></i><span class="hidden md:block font-medium"
+                        data-translate="nav-scanner">Scanner</span>
+                </a>
+                <a href="/dashboard_page"
+                    class="nav-link flex items-center gap-4 p-3 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white"
+                    id="nav-dashboard">
+                    <i class="fas fa-chart-pie text-xl w-6 text-center"></i><span class="hidden md:block font-medium"
+                        data-translate="nav-dashboard">Dashboard</span>
+                </a>
+                <a href="/chat_page"
+                    class="nav-link flex items-center gap-4 p-3 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white"
+                    id="nav-chat">
+                    <i class="fas fa-robot text-xl w-6 text-center"></i><span class="hidden md:block font-medium"
+                        data-translate="nav-bot">Voice AI Bot</span>
+                </a>
+                <a href="/login"
+                    class="nav-link flex items-center gap-4 p-3 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white"
+                    id="nav-login">
+                    <i class="fas fa-sign-in-alt text-xl w-6 text-center"></i><span class="hidden md:block font-medium"
+                        data-translate="nav-login">Login Portal</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="p-4 border-t border-slate-800 flex flex-col gap-4">
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()"
+                class="hidden md:flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300 font-bold border border-slate-700">
+                <i class="fas fa-moon w-5 text-center" id="themeIcon"></i> <span data-translate="nav-theme">Toggle
+                    Theme</span>
+            </button>
+
+            <div class="hidden md:flex flex-col gap-2">
+                <select id="globalLang"
+                    class="bg-slate-800 text-white text-sm rounded-lg border border-slate-700 p-2.5 focus:ring-primary focus:border-primary outline-none font-bold shadow-inner cursor-pointer"
+                    onchange="changeLanguage(this.value)">
+                    <option value="en">English (ENG)</option>
+                    <option value="te">తెలుగు (TEL)</option>
+                    <option value="hi">हिन्दी (HIN)</option>
+                    <option value="ta">தமிழ் (TAM)</option>
+                    <option value="bn">বাংলা (BEN)</option>
+                </select>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="ml-20 md:ml-64 min-h-screen relative p-6 lg:p-10 w-full page-transition opacity-0" id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Preloader Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname;
+            const links = {
+                '/': 'nav-home',
+                '/analyze_page': 'nav-analyze',
+                '/dashboard_page': 'nav-dashboard',
+                '/chat_page': 'nav-chat'
+            };
+
+            const activeId = links[path];
+            if (activeId) {
+                const el = document.getElementById(activeId);
+                if (el) {
+                    el.classList.add('bg-primary', 'text-white', 'shadow-lg');
+                    el.classList.remove('text-slate-400', 'hover:bg-slate-800');
+                }
+            }
+
+            // Remove Preloader after 800ms
+            setTimeout(() => {
+                const preloader = document.getElementById('pagePreloader');
+                const main = document.getElementById('main-content');
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    main.style.opacity = '1';
+                }, 700);
+            }, 800);
+        });
+
+        // Intercept Links for Outro Animation
+        document.querySelectorAll('a.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = e.currentTarget.href;
+                if (url === window.location.href) return;
+
+                const preloader = document.getElementById('pagePreloader');
+                preloader.style.display = 'flex';
+                // Trigger reflow
+                void preloader.offsetWidth;
+                preloader.style.opacity = '1';
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+
+</html>

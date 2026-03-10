@@ -1,0 +1,409 @@
+{% extends "layout.html" %}
+{% block title %}AI Fake News Detection System{% endblock %}
+
+{% block content %}
+<div
+    class="w-full h-full flex flex-col items-center justify-center py-10 lg:py-20 animate-fade-in-up relative z-10 max-w-7xl mx-auto px-4">
+
+    <!-- Hero Section (WOW section) -->
+    <div class="text-center max-w-5xl mx-auto scale-up relative z-10 w-full mb-32">
+        <!-- Floating icons decoration -->
+        <div class="absolute -top-10 -left-10 w-20 h-20 bg-primary/20 rounded-full blur-[20px] animate-pulse"></div>
+        <div class="absolute top-20 -right-20 w-32 h-32 bg-secondary/20 rounded-full blur-[30px] animate-pulse"
+            style="animation-delay: 1s;"></div>
+
+        <i class="fas fa-brain absolute top-0 -left-12 text-5xl text-primary/30 animate-bounce"
+            style="animation-duration: 4s;"></i>
+        <i class="fas fa-shield-virus absolute bottom-0 -right-8 text-6xl text-secondary/30 animate-bounce"
+            style="animation-duration: 5s;"></i>
+
+        <div
+            class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-slate-800/80 border border-slate-700 backdrop-blur-xl mb-10 shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:shadow-primary/40 transition-all cursor-default relative">
+            <span class="w-3 h-3 rounded-full bg-green-500 animate-ping absolute left-6 opacity-75 no-invert"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500 relative no-invert"></span>
+            <span class="text-sm font-bold tracking-widest text-slate-300 uppercase font-mono pl-3"
+                data-translate="hero-tag">Neural Heuristics
+                Online</span>
+        </div>
+
+        <h1 class="text-6xl md:text-8xl font-black font-display tracking-tight text-white leading-tight mb-8"
+            data-translate="hero-title">
+            AI Fake News <br>
+            <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500 animate-gradient pb-2 drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]">Detection
+                System</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-medium leading-relaxed animate-zoom-in-up"
+            style="animation-delay: 0.2s;" data-translate="hero-sub">
+            Detect misinformation instantly using AI. The world's most advanced semantic threat protection suite.
+        </p>
+
+        <!-- Hero Decorative Image -->
+        <div class="relative w-full max-w-lg mx-auto mb-12 animate-float-slow">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-secondary/40 blur-3xl rounded-full"></div>
+            <img src="{{ url_for('static', filename='images/hero_fake_news.png') }}" alt="AI Fake News Detection"
+                class="relative z-10 w-full h-auto rounded-[3rem] border border-slate-700/50 shadow-[0_0_40px_rgba(99,102,241,0.3)] object-cover aspect-video opacity-90 mix-blend-screen no-invert block m-auto">
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center animate-zoom-in-up"
+            style="animation-delay: 0.4s;">
+            <a href="/analyze_page" data-translate="btn-scan"
+                class="group relative px-10 py-5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-display font-black text-xl hover:-translate-y-1 transition-all shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] flex items-center justify-center w-full sm:w-auto">
+                <i class="fas fa-search mr-3"></i> Analyze News Now <i
+                    class="fas fa-arrow-right ml-3 group-hover:translate-x-2 transition-transform"></i>
+            </a>
+            <a href="#how-it-works" data-translate="btn-how"
+                class="px-10 py-5 bg-transparent border-2 border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white rounded-full font-bold text-xl hover:bg-slate-800/50 transition-all flex items-center justify-center w-full sm:w-auto backdrop-blur-sm shadow-inner cursor-pointer">
+                <i class="fas fa-play-circle mr-3"></i> See How It Works
+            </a>
+        </div>
+    </div>
+
+    <!-- The Problem Section -->
+    <div class="w-full max-w-6xl mx-auto mb-32 relative z-10">
+        <div
+            class="bg-red-500/5 border border-red-500/20 rounded-[3rem] p-10 md:p-14 backdrop-blur-md relative overflow-hidden flex flex-col lg:flex-row items-center gap-10">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-red-500/5 pointer-events-none"></div>
+
+            <div class="lg:w-1/2 relative z-10">
+                <h2 class="text-sm font-bold tracking-[0.2em] text-red-400 uppercase mb-4" data-translate="prob-tag"><i
+                        class="fas fa-exclamation-triangle mr-2"></i> The Problem</h2>
+                <p class="text-2xl md:text-4xl font-display font-bold text-white leading-relaxed mb-6"
+                    data-translate="prob-title">
+                    "Fake news spreads rapidly and influences public opinion, causing global harm."
+                </p>
+                <p class="text-xl text-slate-400" data-translate="prob-sub">
+                    Our AI system helps users verify news instantly with multi-modal NLP pipelines.
+                </p>
+            </div>
+
+            <!-- Problem Graphic -->
+            <div class="lg:w-1/2 relative z-10 animate-float-slow" style="animation-delay: 1s;">
+                <div
+                    class="w-full aspect-square md:aspect-video rounded-3xl overflow-hidden border-2 border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.2)] relative">
+                    <div class="absolute inset-0 bg-red-900/30 mix-blend-overlay z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale no-invert opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center z-20">
+                        <i class="fas fa-lock text-6xl text-red-500/50 animate-pulse"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Features Section Grid -->
+    <div class="w-full mx-auto mb-32 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-sm font-bold tracking-[0.2em] text-primary uppercase mb-4" data-translate="feat-tag">
+                Platform Capabilities</h2>
+            <h3 class="text-4xl md:text-5xl font-display font-black text-white" data-translate="feat-title">Full-Stack
+                Truth Extraction</h3>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <!-- Feature 1 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-primary/20 text-primary flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all shadow-[0_0_15px_rgba(99,102,241,0)] group-hover:shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+                        <i class="fas fa-stream"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f1-t">Multi-Input Analysis</h4>
+                    <p class="text-sm text-slate-400" data-translate="f1-d">Analyze URLs, text, headlines, voice notes,
+                        and screenshots via automated scraping.</p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-secondary/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-secondary/20 text-secondary flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-secondary group-hover:text-white transition-all shadow-[0_0_15px_rgba(168,85,247,0)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f2-t">Explainable AI</h4>
+                    <p class="text-sm text-slate-400" data-translate="f2-d">Transparent reasoning, sentiment checks, and
+                        writing style breakdown.</p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-green-500/50 hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-green-500 group-hover:text-white transition-all shadow-[0_0_15px_rgba(34,197,94,0)] group-hover:shadow-[0_0_20px_rgba(34,197,94,0.5)]">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f3-t">Credibility Score</h4>
+                    <p class="text-sm text-slate-400" data-translate="f3-d">Deterministic 0-100% meter predicting Fake,
+                        Suspicious, or Reliable.</p>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-pink-500/50 hover:shadow-[0_0_30px_rgba(236,72,153,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-pink-500 group-hover:text-white transition-all shadow-[0_0_15px_rgba(236,72,153,0)] group-hover:shadow-[0_0_20px_rgba(236,72,153,0.5)]">
+                        <i class="fas fa-highlighter"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f4-t">Keyword Highlighting</h4>
+                    <p class="text-sm text-slate-400" data-translate="f4-d">Suspicious clickbait and propaganda trigger
+                        words are highlighted in red.</p>
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f5-t">Dashboard Analytics</h4>
+                    <p class="text-sm text-slate-400" data-translate="f5-d">Live monitoring feeds, topic heatmaps, and
+                        sentiment distribution charts.</p>
+                </div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-[0_0_30px_rgba(20,184,166,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1588600878108-578307a3cc9d?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white transition-all shadow-[0_0_15px_rgba(20,184,166,0)] group-hover:shadow-[0_0_20px_rgba(20,184,166,0.5)]">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f6-t">Trusted Sources</h4>
+                    <p class="text-sm text-slate-400" data-translate="f6-d">Real-time suggestions to reputable
+                        journalism like BBC and Reuters.</p>
+                </div>
+            </div>
+
+            <!-- Feature 7 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1607419721312-d0f507641f3e?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-white transition-all shadow-[0_0_15px_rgba(249,115,22,0)] group-hover:shadow-[0_0_20px_rgba(249,115,22,0.5)]">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f7-t">Export PDF Reports</h4>
+                    <p class="text-sm text-slate-400" data-translate="f7-d">Download formatted intelligence reports
+                        outlining detailed semantic findings.</p>
+                </div>
+            </div>
+
+            <!-- Feature 8 -->
+            <div
+                class="bg-panel/80 backdrop-blur-xl rounded-[1.5rem] border border-slate-700/50 shadow-lg hover:-translate-y-2 hover:border-indigo-500/50 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-all group relative overflow-hidden flex flex-col h-full hover:animate-tilt-shimmer">
+
+                <div class="w-full h-32 overflow-hidden relative border-b border-slate-700/50">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0 no-invert mix-blend-screen"
+                        style="transform: scaleX(-1);">
+                    <div class="absolute inset-0 bg-gradient-to-t from-panel/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-4 left-6 w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-indigo-500 group-hover:text-white transition-all shadow-[0_0_15px_rgba(99,102,241,0)] group-hover:shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-white mb-2" data-translate="f8-t">Dark / Light Mode</h4>
+                    <p class="text-sm text-slate-400" data-translate="f8-d">Seamlessly toggle between an immersive dark
+                        theme or a bright light mode via Sidebar.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- How It Works Section (Step-By-Step) -->
+    <div id="how-it-works" class="w-full max-w-6xl mx-auto mb-32 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-sm font-bold tracking-[0.2em] text-secondary uppercase mb-4" data-translate="pipe-tag">
+                Pipeline Protocol</h2>
+            <h3 class="text-4xl md:text-5xl font-display font-black text-white" data-translate="pipe-title">How It Works
+            </h3>
+        </div>
+
+        <div class="grid md:grid-cols-4 gap-6">
+            <!-- Step 1 -->
+            <div
+                class="bg-panel/60 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-700/50 shadow-xl hover:-translate-y-2 transition-all relative overflow-hidden group">
+                <div class="text-5xl font-black text-slate-800/50 mb-4 group-hover:text-primary transition-colors">01
+                </div>
+                <h4 class="text-xl font-bold text-white mb-3" data-translate="step1-t">Input Target</h4>
+                <p class="text-sm text-slate-400 leading-relaxed font-medium" data-translate="step1-d">Paste the
+                    suspicious news article,
+                    headline, or URL into the scanner interface.</p>
+            </div>
+            <!-- Step 2 -->
+            <div
+                class="bg-panel/60 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-700/50 shadow-xl hover:-translate-y-2 transition-all relative overflow-hidden group">
+                <div class="text-5xl font-black text-slate-800/50 mb-4 group-hover:text-secondary transition-colors">02
+                </div>
+                <h4 class="text-xl font-bold text-white mb-3" data-translate="step2-t">Initiate Scan</h4>
+                <p class="text-sm text-slate-400 leading-relaxed font-medium" data-translate="step2-d">Click the Analyze
+                    button to launch the NLP
+                    multi-modal processing sequence.</p>
+            </div>
+            <!-- Step 3 -->
+            <div
+                class="bg-panel/60 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-700/50 shadow-xl hover:-translate-y-2 transition-all relative overflow-hidden group">
+                <div class="text-5xl font-black text-slate-800/50 mb-4 group-hover:text-pink-500 transition-colors">03
+                </div>
+                <h4 class="text-xl font-bold text-white mb-3" data-translate="step3-t">AI Engine Runs</h4>
+                <p class="text-sm text-slate-400 leading-relaxed font-medium" data-translate="step3-d">The system
+                    dissects writing style,
+                    sentiment, and propagandist clickbait patterns.</p>
+            </div>
+            <!-- Step 4 -->
+            <div
+                class="bg-panel/60 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-700/50 shadow-xl hover:-translate-y-2 transition-all relative overflow-hidden group">
+                <div class="text-5xl font-black text-slate-800/50 mb-4 group-hover:text-green-500 transition-colors">04
+                </div>
+                <h4 class="text-xl font-bold text-white mb-3" data-translate="step4-t">View Report</h4>
+                <p class="text-sm text-slate-400 leading-relaxed font-medium" data-translate="step4-d">Review the 0-100
+                    Credibility Score, exact
+                    highlighted triggers, and download insights.</p>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <a href="/analyze_page" data-translate="btn-demo"
+                class="px-8 py-4 bg-slate-800 border border-slate-600 hover:border-primary text-white rounded-full font-bold text-lg hover:bg-slate-700 transition-all inline-flex items-center gap-2 shadow-lg">
+                Go to Live Demo Panel <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Education Section -->
+    <div
+        class="w-full max-w-6xl mx-auto mb-20 relative z-10 bg-gradient-to-br from-panel to-black rounded-[3rem] p-10 md:p-16 border border-slate-800 shadow-2xl backdrop-blur-2xl">
+        <div class="text-center mb-16">
+            <h2 class="text-sm font-bold tracking-[0.2em] text-secondary uppercase mb-4" data-translate="edu-tag">Fake
+                News Education Center</h2>
+            <h3 class="text-4xl md:text-5xl font-display font-black text-white" data-translate="edu-title">Manual
+                Verification Tips</h3>
+            <p class="text-slate-400 mt-6 max-w-2xl mx-auto text-lg" data-translate="edu-sub">Protect yourself from
+                digital deception by adopting
+                these cognitive habits.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <!-- Tip 1 -->
+            <div class="flex flex-col items-center">
+                <div
+                    class="w-20 h-20 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center border-2 border-blue-500/30 text-3xl mb-6 shadow-[0_0_20px_rgba(59,130,246,0.2)] no-invert">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2" data-translate="tip1-t">Cross-Reference</h4>
+                <p class="text-slate-400 leading-relaxed text-sm" data-translate="tip1-d">Always verify information
+                    across multiple, independent
+                    news agencies before trusting a claim.</p>
+            </div>
+            <!-- Tip 2 -->
+            <div class="flex flex-col items-center">
+                <div
+                    class="w-20 h-20 rounded-full bg-green-500/10 text-green-400 flex items-center justify-center border-2 border-green-500/30 text-3xl mb-6 shadow-[0_0_20px_rgba(34,197,94,0.2)] no-invert">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2" data-translate="tip2-t">Check Credibility</h4>
+                <p class="text-sm text-slate-400 leading-relaxed text-sm" data-translate="tip2-d">Investigate the
+                    website's URL format. Is it a known
+                    source like Reuters or BBC, or an obscure blog?</p>
+            </div>
+            <!-- Tip 3 -->
+            <div class="flex flex-col items-center">
+                <div
+                    class="w-20 h-20 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center border-2 border-red-500/30 text-3xl mb-6 shadow-[0_0_20px_rgba(239,68,68,0.2)] no-invert">
+                    <i class="fas fa-font"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2" data-translate="tip3-t">Avoid Sensationalism</h4>
+                <p class="text-sm text-slate-400 leading-relaxed text-sm" data-translate="tip3-d">Be extremely wary of
+                    articles with ALL CAPS, excessive
+                    punctuation, and outrage-inducing headlines.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer
+        class="w-full mt-10 pt-10 border-t border-slate-800/80 relative z-10 flex flex-col items-center text-center pb-4">
+        <h2 class="font-display font-black text-2xl text-white tracking-widest uppercase mb-4">Truth<span
+                class="text-primary">Lens</span></h2>
+        <p class="text-slate-500 max-w-md mx-auto text-sm mb-6">Built to protect the digital landscape using Python
+            Flask, Scikit-learn NLP models, TailwindCSS, and intelligent Neural Heuristics.</p>
+        <div class="flex gap-4 mb-8">
+            <span
+                class="px-3 py-1 bg-slate-800 rounded-lg text-xs font-bold font-mono text-slate-400 border border-slate-700">Hackathon
+                Edition</span>
+            <span
+                class="px-3 py-1 bg-slate-800 rounded-lg text-xs font-bold font-mono text-slate-400 border border-slate-700">V
+                2.0</span>
+        </div>
+        <p class="text-slate-600 text-xs">A comprehensive AI misinformation detection platform.</p>
+    </footer>
+
+</div>
+{% endblock %}

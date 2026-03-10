@@ -1,0 +1,369 @@
+/* Base Setup */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #020617;
+    transition: filter 0.5s ease, background-color 0.5s ease;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+/* Page Transition Helpers */
+.page-transition {
+    animation: fadeInPage 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-zoom-in-up {
+    animation: zoomInUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes zoomInUp {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* CSS Light Theme Inversion Strategy */
+html.light-theme {
+    filter: invert(1) hue-rotate(180deg);
+    background-color: #f8fafc;
+}
+
+html.light-theme .no-invert,
+html.light-theme img,
+html.light-theme video {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Background Aesthetics & Videos */
+.animate-blob {
+    animation: blob 15s infinite alternate ease-in-out;
+}
+
+@keyframes blob {
+    0% {
+        transform: scale(1) translate(0px, 0px);
+    }
+
+    33% {
+        transform: scale(1.1) translate(30px, -40px);
+    }
+
+    66% {
+        transform: scale(0.9) translate(-20px, 30px);
+    }
+
+    100% {
+        transform: scale(1) translate(0px, 0px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Gradient Text Animation */
+.animate-gradient {
+    background-size: 200% auto;
+    animation: textGradientPulse 4s linear infinite;
+}
+
+@keyframes textGradientPulse {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* SVG Progress Rings */
+.animate-progress {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2s ease-out;
+}
+
+/* Input Tabs for Analyze */
+.analyzer-tab.active {
+    background: #6366f1;
+    color: white !important;
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* Scanner Microphone Ripple Animation */
+.recording #recordingRipple {
+    animation: ripple 1.5s infinite;
+}
+
+.recording #startRecordingBtn {
+    background: rgba(236, 72, 153, 0.1);
+    border-color: #ec4899;
+    color: #ec4899;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+        border-width: 4px;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+        border-width: 0px;
+    }
+}
+
+/* Scan Loader Animations */
+.animate-scan-line {
+    animation: scanLine 2s linear infinite;
+}
+
+@keyframes scanLine {
+    0% {
+        top: 0;
+        opacity: 1;
+    }
+
+    50% {
+        top: 100%;
+        opacity: 0.5;
+    }
+
+    100% {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+.animate-spin-slow {
+    animation: spin 8s linear infinite;
+}
+
+.animate-spin-reverse {
+    animation: spinReverse 6s linear infinite;
+}
+
+@keyframes spinReverse {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+/* Chatbot UI Voice Waves */
+.animate-wave {
+    animation: voiceWave 1.2s ease-in-out infinite;
+}
+
+.animation-delay-200 {
+    animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+    animation-delay: 0.4s;
+}
+
+.animation-delay-600 {
+    animation-delay: 0.6s;
+}
+
+@keyframes voiceWave {
+
+    0%,
+    100% {
+        transform: scaleY(0.5);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scaleY(1.5);
+        opacity: 1;
+    }
+}
+
+.chat-bubble-pop {
+    transform-origin: bottom left;
+    animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.chat-bubble-pop-right {
+    transform-origin: bottom right;
+    animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bubblePop {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Toast System */
+.toast {
+    animation: slideInRight 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.toast.hide {
+    animation: slideOutRight 0.3s ease-in forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%) scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(120%) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* Iteration 16 Polish Animations */
+.animate-float-slow {
+    animation: floatSlow 8s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.02);
+    }
+}
+
+.animate-tilt-shimmer {
+    animation: tiltShimmer 4s ease-in-out infinite alternate;
+}
+
+@keyframes tiltShimmer {
+    0% {
+        transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+        filter: brightness(1.1) drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+    }
+
+    100% {
+        transform: perspective(1000px) rotateX(-2deg) rotateY(2deg) scale(1);
+        filter: brightness(1);
+    }
+}
+
+.animate-glow-pulse-strong {
+    animation: pulseStrong 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseStrong {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+    }
+
+    50% {
+        opacity: .7;
+        box-shadow: 0 0 40px rgba(168, 85, 247, 0.9);
+    }
+}

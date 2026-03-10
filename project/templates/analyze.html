@@ -1,0 +1,381 @@
+{% extends "layout.html" %}
+{% block title %}Neural Scanner{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-6xl mx-auto flex flex-col pt-4 animate-fade-in-up relative z-10">
+    <div class="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div>
+            <h2 class="text-4xl font-display font-bold text-white tracking-tight" data-translate="scan-title">
+                Multi-Modal Scanner</h2>
+            <p class="text-slate-400 mt-2 font-medium" data-translate="scan-sub">Verify text, URLs, headlines, voice
+                notes, or screenshot images
+                instantly.</p>
+        </div>
+        <div class="flex gap-3">
+            <button
+                class="w-12 h-12 rounded-full bg-panel/80 backdrop-blur-md border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 hover:border-slate-500 flex items-center justify-center transition-all shadow-lg"
+                onclick="location.reload()" title="Reset Scanner">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <button
+                class="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-md border border-primary/50 text-primary hover:bg-primary/40 hover:text-white flex items-center justify-center transition-all shadow-[0_0_15px_rgba(99,102,241,0.3)] animate-pulse"
+                title="Voice Guide" onclick="playVoiceGuide()">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scanner Interface -->
+    <div
+        class="w-full max-w-4xl mx-auto bg-panel/60 backdrop-blur-2xl border border-slate-700/50 p-3 rounded-[2rem] shadow-2xl relative overflow-hidden z-20">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+        <!-- Input Tabs with New URL and Headline Features -->
+        <div class="flex gap-2 p-2 bg-black/40 rounded-[1.5rem] mb-4 relative z-10 overflow-x-auto custom-scrollbar">
+            <button
+                class="analyzer-tab flex-1 whitespace-nowrap py-3 px-4 rounded-xl font-bold text-sm bg-primary text-white shadow-lg transition-all border border-primary/50"
+                data-target="text" data-translate="tab-text">
+                <i class="fas fa-align-left mr-2"></i>Full Text
+            </button>
+            <button
+                class="analyzer-tab flex-1 whitespace-nowrap py-3 px-4 rounded-xl font-bold text-sm bg-transparent text-slate-400 hover:text-white hover:bg-slate-800 transition-all border border-transparent"
+                data-target="url" data-translate="tab-url">
+                <i class="fas fa-link mr-2"></i>News URL
+            </button>
+            <button
+                class="analyzer-tab flex-1 whitespace-nowrap py-3 px-4 rounded-xl font-bold text-sm bg-transparent text-slate-400 hover:text-white hover:bg-slate-800 transition-all border border-transparent"
+                data-target="headline" data-translate="tab-head">
+                <i class="fas fa-heading mr-2"></i>Headline
+            </button>
+            <button
+                class="analyzer-tab flex-1 whitespace-nowrap py-3 px-4 rounded-xl font-bold text-sm bg-transparent text-slate-400 hover:text-white hover:bg-slate-800 transition-all border border-transparent"
+                data-target="voice" data-translate="tab-voice">
+                <i class="fas fa-microphone mr-2"></i>Voice Note
+            </button>
+            <button
+                class="analyzer-tab flex-1 whitespace-nowrap py-3 px-4 rounded-xl font-bold text-sm bg-transparent text-slate-400 hover:text-white hover:bg-slate-800 transition-all border border-transparent"
+                data-target="image" data-translate="tab-img">
+                <i class="fas fa-image mr-2"></i>Screenshot
+            </button>
+        </div>
+
+        <div
+            class="bg-dark/80 rounded-[1.5rem] p-6 lg:p-10 min-h-[300px] border border-slate-800 flex flex-col relative z-10">
+            <!-- Text Input -->
+            <div id="input-text" class="input-pane w-full flex-grow flex flex-col">
+                <textarea id="analyzeText"
+                    class="w-full h-48 bg-transparent resize-none focus:outline-none text-xl md:text-2xl text-slate-200 placeholder-slate-600 custom-scrollbar leading-relaxed"
+                    placeholder="Paste the full suspicious forwarded message or article text here..."></textarea>
+            </div>
+
+            <!-- URL Input -->
+            <div id="input-url"
+                class="input-pane hidden w-full flex-grow flex flex-col justify-center items-center gap-4">
+                <i class="fas fa-globe text-4xl text-slate-600 mb-2"></i>
+                <input type="url" id="analyzeUrl"
+                    class="w-full max-w-xl bg-slate-900 border border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-6 py-4 text-white text-lg transition-all outline-none text-center placeholder-slate-500"
+                    placeholder="https://news-site.com/article...">
+                <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">We will auto-extract the article
+                    content to analyze.</p>
+            </div>
+
+            <!-- Headline Input -->
+            <div id="input-headline"
+                class="input-pane hidden w-full flex-grow flex flex-col justify-center items-center gap-4">
+                <i class="fas fa-bullhorn text-4xl text-slate-600 mb-2"></i>
+                <input type="text" id="analyzeHeadline"
+                    class="w-full max-w-2xl bg-slate-900 border border-slate-700 focus:border-secondary focus:ring-1 focus:ring-secondary rounded-xl px-6 py-4 text-white text-xl md:text-2xl transition-all outline-none text-center font-display font-medium placeholder-slate-500 shadow-inner"
+                    placeholder="E.g., Shocking New Cure Discovered!">
+                <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Analyze the sensationalism of a
+                    title.</p>
+            </div>
+
+            <!-- Voice Input -->
+            <div id="input-voice"
+                class="input-pane hidden w-full flex-grow flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-xl bg-slate-900/50 p-6 relative">
+                <div class="relative group cursor-pointer mb-6" id="recordBtnWrapper">
+                    <button id="startRecordingBtn"
+                        class="w-24 h-24 rounded-full bg-slate-800 border-4 border-slate-600 flex items-center justify-center text-slate-400 hover:text-white hover:border-secondary transition-all relative z-10 outline-none">
+                        <i class="fas fa-microphone text-3xl"></i>
+                    </button>
+                    <div id="recordingRipple"
+                        class="absolute inset-0 rounded-full border-4 border-secondary opacity-0 pointer-events-none">
+                    </div>
+                </div>
+                <p id="recordingStatus" class="font-display font-bold text-xl text-slate-300 relative z-10">Tap
+                    microphone to speak</p>
+                <textarea id="voiceResultText"
+                    class="mt-6 w-full max-w-lg h-24 bg-black/50 border border-slate-800 rounded-lg p-4 text-center text-slate-300 resize-none hidden relative z-10"
+                    readonly></textarea>
+            </div>
+
+            <!-- Image Input -->
+            <div id="input-image" class="input-pane hidden w-full flex-grow">
+                <div
+                    class="w-full h-full min-h-[250px] border-2 border-dashed border-slate-700 rounded-xl bg-slate-900/50 flex flex-col items-center justify-center gap-4 hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    </div>
+                    <i
+                        class="fas fa-cloud-upload-alt text-5xl text-slate-500 group-hover:text-primary transition-colors z-20"></i>
+                    <div class="text-center z-20">
+                        <p class="font-display font-bold text-xl text-slate-300">Upload Screenshot</p>
+                        <p class="text-sm text-slate-500 mt-1">Drag & drop or click to browse</p>
+                    </div>
+                    <input type="file" id="imageInputFile"
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-30" accept="image/*">
+                    <img id="imagePreviewDisplay"
+                        class="absolute inset-0 w-full h-full object-contain p-4 z-40 hidden bg-black backdrop-blur-xl">
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end items-center border-t border-slate-800/80 pt-6">
+                <div class="flex items-center gap-2 text-slate-500 text-sm font-medium mr-auto">
+                    <i class="fas fa-lock"></i> 256-bit Secure Neural Pipeline
+                </div>
+                <button id="triggerScanBtn" data-translate="btn-trigger-scan"
+                    class="px-10 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-display font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:-translate-y-1 transition-all flex items-center gap-3 text-lg">
+                    <i class="fas fa-project-diagram text-xl"></i> Initiate Deep Scan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deep Scan Loading -->
+    <div id="scanLoader"
+        class="hidden max-w-3xl mx-auto w-full bg-panel/80 backdrop-blur-2xl border border-slate-700 p-12 rounded-[2rem] mt-8 flex flex-col items-center justify-center text-center shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-primary/80 shadow-[0_0_20px_#6366f1] animate-scan-line"></div>
+        <div class="w-32 h-32 relative flex items-center justify-center mb-8">
+            <svg class="animate-spin-slow w-full h-full text-primary/30 absolute" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-dasharray="20 10"></circle>
+            </svg>
+            <svg class="animate-spin-reverse w-24 h-24 text-secondary/50 absolute" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1"
+                    stroke-dasharray="40 10"></circle>
+            </svg>
+            <i class="fas fa-microchip text-4xl text-white absolute animate-pulse"></i>
+        </div>
+        <h3 class="text-primary font-display font-black text-2xl tracking-[0.2em] mb-2" data-translate="txt-loading">
+            NEURAL SCAN ACTIVE</h3>
+        <p class="text-slate-400 font-mono text-sm tracking-widest animate-pulse">[ CROSS-REFERENCE PROTOCOL ]</p>
+    </div>
+
+    <!-- Results Display Container -->
+    <div id="scanResults"
+        class="hidden w-full mt-12 bg-transparent opacity-0 transform translate-y-8 transition-all duration-700 relative z-20">
+
+        <!-- Action Row -->
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-display font-bold text-white"><i class="fas fa-file-contract text-primary mr-2"></i>
+                Analysis Report</h3>
+            <button onclick="downloadReport()"
+                class="bg-slate-800 hover:bg-slate-700 text-sm font-bold border border-slate-700 px-4 py-2 rounded-lg text-white shadow-lg transition-colors flex items-center gap-2">
+                <i class="fas fa-download"></i> Export PDF Report
+            </button>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-6">
+
+            <!-- Visual Verdict (Left/Top) -->
+            <div id="verdictBox"
+                class="lg:col-span-4 bg-panel rounded-3xl p-8 border-4 flex flex-col items-center justify-center text-center shadow-lg relative overflow-hidden group h-fit">
+                <div id="verdictGlowBox" class="absolute inset-0 opacity-20 shadow-inner pointer-events-none"></div>
+                <p
+                    class="text-xs font-bold tracking-[0.3em] text-slate-400 mb-6 uppercase relative z-10 w-full flex items-center justify-between">
+                    <span>Algorithm Output</span>
+                </p>
+                <div class="relative w-48 h-48 mb-6 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90 absolute" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8">
+                        </circle>
+                        <circle id="riskCircleUi" cx="50" cy="50" r="45" fill="none"
+                            class="transition-all duration-[1500ms] ease-out drop-shadow-lg" stroke="currentColor"
+                            stroke-width="8" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round">
+                        </circle>
+                    </svg>
+                    <div class="absolute flex flex-col items-center justify-center">
+                        <i id="verdictIcon" class="text-5xl mb-2 drop-shadow-md"></i>
+                        <span class="text-xs font-bold text-slate-300 font-mono tracking-widest mt-1">CREDIBILITY</span>
+                        <span id="riskPercentageText" class="text-2xl font-black text-white">0%</span>
+                    </div>
+                </div>
+
+                <h2 id="verdictTitle"
+                    class="font-display font-black text-2xl md:text-3xl uppercase text-center w-full leading-tight tracking-wider mb-2 relative z-10 drop-shadow-md">
+                    ...</h2>
+                <div class="flex gap-4 relative z-10 mt-6 border-t border-white/10 pt-6 w-full justify-center">
+                    <button id="ttsReadoutBtn"
+                        class="flex-1 py-3 px-2 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/15 border border-white/10 transition-all flex items-center justify-center gap-2 group/btn">
+                        <i class="fas fa-volume-up text-primary group-hover/btn:scale-125 transition-transform"></i>
+                        Play Audio
+                    </button>
+                    <button
+                        class="flex-1 py-3 px-2 rounded-xl text-xs font-bold bg-[rgba(37,211,102,0.1)] hover:bg-[rgba(37,211,102,0.2)] border border-[rgba(37,211,102,0.3)] transition-all flex items-center justify-center gap-2 text-green-400 group/btn"
+                        onclick="showToast('Warning Copied!', 'success')">
+                        <i class="fab fa-whatsapp text-lg group-hover/btn:scale-125 transition-transform"></i> Share
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Explanation Panel (Right/Main) -->
+            <div class="lg:col-span-8 flex flex-col gap-6 w-full">
+
+                <!-- Advanced Deep Dive Metrics -->
+                <div
+                    class="bg-panel rounded-3xl p-6 border border-slate-700/50 shadow-lg relative overflow-hidden backdrop-blur-md">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><i
+                            class="fas fa-network-wired text-8xl text-primary"></i></div>
+
+                    <h3
+                        class="text-sm font-bold tracking-[0.1em] text-primary mb-4 flex items-center uppercase relative z-10">
+                        <i class="fas fa-microscope mr-2"></i> Explainable AI Breakdown
+                    </h3>
+
+                    <p id="aiReasonText"
+                        class="text-slate-200 text-lg font-medium leading-relaxed italic border-l-4 border-primary pl-4 py-1 relative z-10 bg-black/20 rounded-r-xl pr-4 mb-6">
+                        ...</p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10 text-center">
+                        <div
+                            class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 flex flex-col items-center justify-center gap-2 shadow-inner">
+                            <i class="fas fa-thermometer-half text-rose-400 text-xl"></i>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Sentiment</span>
+                            <span id="aiSentiment" class="text-sm font-bold text-white leading-tight">...</span>
+                        </div>
+                        <div
+                            class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 flex flex-col items-center justify-center gap-2 shadow-inner">
+                            <i class="fas fa-pen-nib text-blue-400 text-xl"></i>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Writing
+                                Style</span>
+                            <span id="aiStyle" class="text-sm font-bold text-white leading-tight">...</span>
+                        </div>
+                        <div
+                            class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 flex flex-col items-center justify-center gap-2 shadow-inner">
+                            <i class="fas fa-mouse-pointer text-yellow-500 text-xl"></i>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Clickbait</span>
+                            <span id="aiClickbait" class="text-sm font-bold text-white leading-tight">...</span>
+                        </div>
+                        <div
+                            class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 flex flex-col items-center justify-center gap-2 shadow-inner">
+                            <i class="fas fa-bullhorn text-purple-400 text-xl"></i>
+                            <span
+                                class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Propaganda</span>
+                            <span id="aiPropaganda"
+                                class="text-sm font-bold text-white leading-tight flex-wrap">...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Highlight Panel -->
+                <div class="bg-panel rounded-3xl p-6 border border-slate-700/50 shadow-lg relative flex flex-col">
+                    <h3
+                        class="text-sm font-bold tracking-[0.1em] text-slate-400 mb-2 uppercase flex items-center justify-between">
+                        <span><i class="fas fa-highlighter mr-2 text-secondary"></i> Content Analyzer Highlighter</span>
+                        <div class="flex gap-3 text-[10px] font-bold">
+                            <span class="text-red-400"><span
+                                    class="w-2 h-2 inline-block bg-red-500 rounded-full mr-1"></span>Suspicious</span>
+                            <span class="text-green-400"><span
+                                    class="w-2 h-2 inline-block bg-green-500 rounded-full mr-1"></span>Credible</span>
+                        </div>
+                    </h3>
+                    <div id="highlightWrapper"
+                        class="w-full bg-slate-900 rounded-xl p-4 border border-slate-800 flex-grow h-48 custom-scrollbar overflow-y-auto">
+                        <p id="highlightBox" class="text-slate-300 leading-relaxed font-serif text-lg tracking-wide">...
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Counter-Article and Spread Network (Shows for RED/YELLOW) -->
+        <div id="counterMeasuresContainer" class="hidden w-full mt-6 grid lg:grid-cols-2 gap-6 relative z-20">
+            <!-- Fact Check Card -->
+            <div
+                class="bg-panel rounded-3xl p-6 border border-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.1)] flex flex-col gap-4 backdrop-blur-md relative overflow-hidden">
+                <h3 class="text-sm font-bold tracking-[0.1em] text-red-400 mb-2 uppercase flex items-center gap-2"><i
+                        class="fas fa-shield-alt"></i> AI Counter-Article Fact Check</h3>
+                <div
+                    class="bg-slate-900/80 rounded-xl p-6 border border-slate-700 h-full flex flex-col shadow-inner relative z-10">
+                    <p class="text-xs text-slate-500 font-bold uppercase mb-1 tracking-wider">Claim Detected:</p>
+                    <p id="factClaim" class="text-slate-300 italic mb-4 font-serif text-lg">...</p>
+                    <p class="text-xs text-slate-500 font-bold uppercase mb-1 tracking-wider">AI Verdict:</p>
+                    <p id="factVerdict"
+                        class="text-red-400 font-black text-xl mb-4 uppercase tracking-[0.2em] drop-shadow-md">...</p>
+                    <p class="text-xs text-slate-500 font-bold uppercase mb-1 tracking-wider">Explanation:</p>
+                    <p id="factExplanation" class="text-slate-300 text-sm mb-4 leading-relaxed">...</p>
+                    <div class="mt-auto border-t border-slate-800 pt-4">
+                        <p class="text-xs text-slate-500 font-bold mb-3 tracking-wider uppercase">Verified
+                            Counter-Sources:</p>
+                        <ul id="factSources" class="flex flex-wrap gap-2"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spread Network -->
+            <div
+                class="bg-panel rounded-3xl p-6 border border-secondary/30 shadow-[0_0_20px_rgba(168,85,247,0.1)] flex flex-col gap-4 backdrop-blur-md relative overflow-hidden">
+                <h3
+                    class="text-sm font-bold tracking-[0.1em] text-secondary mb-2 uppercase flex items-center justify-between gap-2">
+                    <span><i class="fas fa-project-diagram"></i> Spread Simulation</span>
+                    <span id="spreadLevelBadge"
+                        class="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-xs font-bold shadow-inner">VIRAL</span>
+                </h3>
+                <div class="flex gap-4 mb-2 relative z-10">
+                    <div class="flex-1 bg-slate-900/80 rounded-xl p-4 text-center border border-slate-700 shadow-inner">
+                        <p class="text-[10px] uppercase text-slate-500 font-bold tracking-widest mb-1">Est. Shares</p>
+                        <p id="statShares" class="text-2xl font-black text-white drop-shadow-md pb-1">0</p>
+                    </div>
+                    <div class="flex-1 bg-slate-900/80 rounded-xl p-4 text-center border border-slate-700 shadow-inner">
+                        <p class="text-[10px] uppercase text-slate-500 font-bold tracking-widest mb-1">Potential Reach
+                        </p>
+                        <p id="statReach" class="text-2xl font-black text-white drop-shadow-md pb-1">0</p>
+                    </div>
+                </div>
+                <div id="networkGraph"
+                    class="w-full min-h-[250px] bg-black/60 rounded-xl border border-slate-800 flex-grow relative overflow-hidden cursor-crosshair">
+                    <!-- Vis.js canvas will hook here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Related News (Shows for GREEN credibility) -->
+        <div id="relatedSourcesContainer"
+            class="hidden w-full mt-6 bg-panel rounded-3xl p-6 border border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] flex flex-col gap-4">
+            <h3 class="text-sm font-bold tracking-[0.1em] text-green-400 mb-2 uppercase flex items-center gap-2"><i
+                    class="fas fa-globe"></i> Verified Sources & Related News</h3>
+            <p class="text-sm text-slate-500 mb-2">We found the following highly credible content that confirms
+                information in your query.</p>
+            <div id="relatedSourcesList" class="grid md:grid-cols-3 gap-4">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const globalLangSelect = document.getElementById('globalLang');
+    let aiReasonString = "";
+
+    function playVoiceGuide() {
+        const lang = globalLangSelect ? globalLangSelect.value : 'en';
+        let txt = "Welcome to Truth Lens. Please select your input method from the tabs, enter your content, and click initiate scan to begin the neural analysis pipeline.";
+        window.speechSynthesis.cancel();
+        const synth = new SpeechSynthesisUtterance(txt);
+        synth.lang = lang === 'hi' ? 'hi-IN' : lang === 'es' ? 'es-ES' : 'en-US';
+        window.speechSynthesis.speak(synth);
+    }
+
+    document.getElementById('ttsReadoutBtn')?.addEventListener('click', () => {
+        if (!aiReasonString) return;
+        const lang = globalLangSelect ? globalLangSelect.value : 'en';
+        window.speechSynthesis.cancel();
+        const synth = new SpeechSynthesisUtterance(aiReasonString);
+        synth.lang = lang === 'hi' ? 'hi-IN' : lang === 'es' ? 'es-ES' : 'en-US';
+        window.speechSynthesis.speak(synth);
+    });
+
+</script>
+{% endblock %}
