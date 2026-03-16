@@ -1,11 +1,17 @@
-from flask import Flask, request, jsonify, render_template
+import os
 import time
 import urllib.request
 import urllib.parse
 import json
 import re
+from flask import Flask, request, jsonify, render_template
 
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
+# Resolve paths relative to this file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.join(BASE_DIR, '..', 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, '..', 'static')
+
+app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
 def fetch_wiki_data(query):
     try:
@@ -265,4 +271,5 @@ def chat():
     return jsonify({"reply": reply, "language": lang})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
